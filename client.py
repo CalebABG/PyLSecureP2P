@@ -226,7 +226,6 @@ class Client:
                 print("Decrypted data: {}\n".format(decrypted_data))
 
                 fd.write(decrypted_data)
-                fd.flush()
 
             except():
                 print("Failed to open file: {}".format(file_name))
