@@ -1,0 +1,18 @@
+Diffe Hellman Key Exchange Algorithm:
+    - https://security.stackexchange.com/questions/45963/diffie-hellman-key-exchange-in-plain-english
+
+Python 2,3 Compatibility:
+    - pip install future
+    - https://python-future.org/compatible_idioms.html
+
+PyCrypto Encryption Package:
+- pip install pycryptodome
+    - https://pycryptodome.readthedocs.io/en/latest/src/installation.html#windows-from-sources-python-3-5-and-newer
+
+
+Links:
+- most helpful:
+https://tutorialedge.net/python/udp-client-server-python/
+https://stackoverflow.com/questions/13993514/sending-receiving-file-udp-in-python
+- helpful for json encoding and decoding for transport/comm (headers, status code, phrase, body/message)
+https://pythonspot.com/tag/json/
