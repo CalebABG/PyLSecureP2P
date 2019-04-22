@@ -34,12 +34,14 @@ transfer_timeout = 6
 if use_mtu_read_size:
     # file read size
     udp_mtu_size = 128
-    packet_read_size = 81
+    # packet_read_size = 81
     receive_buffer = udp_mtu_size
 else:
-    udp_mtu_size = 2**11
-    packet_read_size = 2**11
-    receive_buffer = 2**12
+    udp_mtu_size = 2**12
+    # packet_read_size = 2**10
+
+    # MAX = 2^13 = 8192
+    receive_buffer = 2**13
 
 # if changed to custom val, need to be careful of not exceeding receive_buffer size
 # if exceeded, receiver will throw an exception
@@ -60,6 +62,8 @@ def aes_read_file(session_key, file_path, source_port, destination_port):
 
     iv = get_random_bytes(16)
 
+
+
     try:
         input_file = open(file_path, 'rb')
 
@@ -75,8 +79,8 @@ def aes_read_file(session_key, file_path, source_port, destination_port):
             # encryption
             encryption_suite = AES.new(session_key, AES.MODE_CBC, iv)
             cipher_text = encryption_suite.encrypt(pad(file_bytes_read, block_size))
-
             cipher_text_len = len(cipher_text)
+
             iv_len = len(iv)
 
             str_format = "LL{}s{}s".format(cipher_text_len, iv_len)

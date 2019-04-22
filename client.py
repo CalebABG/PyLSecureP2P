@@ -1,5 +1,6 @@
 import socket  # Import socket module
 import time  # Import time module
+import datetime
 import os
 import struct
 import p2putils
@@ -128,6 +129,8 @@ class Client:
                 return
 
         """     Start receiving packets for file     """
+        start_receive_time = datetime.datetime.now()
+
         # Open output file
         try:
             fd = open(file_name, "wb")
@@ -171,8 +174,12 @@ class Client:
 
             # if this is the confirmation packet for all packets received, close and exit receiver
             if upacket_unpacked[3] == -1:
+                end_receive_time = datetime.datetime.now()
+
                 print("Receiver: Received Confirmation Packet: {}".format(upacket_unpacked))
-                print("Receiver: All Packets Received, File Received Successfully!\n")
+                print("Receiver: All Packets Received, File Received Successfully!")
+                print("Receiver: Time Taken - {}\n".format(end_receive_time - start_receive_time))
+
                 tsocket.close()
                 fd.close()
                 break
@@ -252,6 +259,7 @@ class Client:
         A_bytes = struct.pack("l", A)
         tsocket.sendto(A_bytes, (ip, dest_port))
 
+        start_send_time = datetime.datetime.now()
         print("Sent calculation: {} - {}".format(A, A_bytes))
         # wait till we get the number to calculate
         print("Sender: Waiting for response...")
@@ -371,8 +379,11 @@ class Client:
         # send final packet to let receiver know all packets have been sent
         confirm_packet = p2putils.create_packet(0, 0, -1, b"EOF")
         tsocket.sendto(confirm_packet, (ip, dest_port))
+
         # Close server connection and exit successfully
-        print("Sender: File Transferred Successfully!\n")
+        end_send_time = datetime.datetime.now()
+        print("Sender: File Transferred Successfully!")
+        print("Sender: Time Taken - {}\n".format(end_send_time - start_send_time))
         tsocket.close()
 
 
